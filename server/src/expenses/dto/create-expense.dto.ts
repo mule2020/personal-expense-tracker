@@ -1,16 +1,18 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsPositive, IsString, IsDateString } from 'class-validator';
 
 export class CreateExpenseDto {
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Title is required' })
   title: string;
 
-  @IsNumber()
+  @IsNumber({}, { message: 'Amount must be a number' })
+  @IsPositive({ message: 'Amount must be greater than 0' })
   amount: number;
 
   @IsString()
+  @IsNotEmpty({ message: 'Category is required' })
   category: string;
 
-  @IsString()
-  date: string; // YYYY-MM-DD
+  @IsDateString({}, { message: 'Invalid date format' })
+  date: string;
 }

@@ -1,25 +1,38 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
 import { ExpensesService } from './expenses.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 
 @Controller('expenses')
 export class ExpensesController {
-    constructor(private readonly service: ExpensesService) {}
+    constructor(private readonly service: ExpensesService) { }
 
     @Get()
-    getAll(){
+    getAll() {
         return this.service.findAll();
     }
 
     @Post()
-    create(@Body() dto: CreateExpenseDto){
-     return this.service.create(dto);
+    create(@Body() dto: CreateExpenseDto) {
+        return this.service.create(dto);
+    }
+
+    @Put(':id')
+    update(
+        @Param('id', ParseIntPipe) id: number,
+        @Body() dto: CreateExpenseDto,
+    ) {
+        return this.service.update(id, dto);
+    }
+
+    @Delete(':id')
+    remove(@Param('id', ParseIntPipe) id: number) {
+        return this.service.remove(id);
     }
 
     @Get('summary/category')
     getByCategory() {
-    return this.service.summaryByCategory();
-  }
+        return this.service.summaryByCategory();
+    }
 
     @Get('summary/month')
     getByMonth() {
