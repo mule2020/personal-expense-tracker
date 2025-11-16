@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ExpensesModule } from './expenses/expenses.module';
 import { Expense } from './expenses/expense.entity';
+import { BudgetsModule } from './budgets/budgets.module';
+import { Budget } from './budgets/budget.entity';
 
 @Module({
   imports: [
@@ -12,10 +14,11 @@ import { Expense } from './expenses/expense.entity';
       username: 'postgres',
       password: '1234',
       database: 'expense_tracker',
-      entities: [Expense],
+      entities: [Expense, Budget],
       synchronize: true, // dev only
     }),
     ExpensesModule,
+    BudgetsModule,
   ],
 })
 export class AppModule {}
