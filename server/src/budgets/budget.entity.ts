@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from '../users/user.entity';
 
 @Entity()
 export class Budget {
@@ -10,4 +11,7 @@ export class Budget {
 
   @Column('numeric')
   amount: number;
+
+  @ManyToOne(() => User, user => user.budgets, { onDelete: 'CASCADE' })
+  user: User;
 }

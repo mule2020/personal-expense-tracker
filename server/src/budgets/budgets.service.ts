@@ -11,22 +11,30 @@ export class BudgetsService {
     private repo: Repository<Budget>,
   ) {}
 
-  findAll() {
-    return this.repo.find({ order: { month: 'ASC' } });
+  findAll(userId: number) {
+    return this.repo.find({
+      where: { user: { id: userId } },
+      order: { month: 'ASC' },
+    });
   }
 
-  async findOneByMonth(month: string) {
-    const budget = await this.repo.findOne({ where: { month } });
-    if (!budget) {
-      throw new NotFoundException('Budget not found');
-    }
+  async findOneByMonth(month: string, userId: number) {
+    const budget = await this.repo.findOne({
+      where: { month, user: { id: userId } },
+    });
+    if (!budget) throw new NotFoundException('Budget not found');
     return budget;
   }
 
-  async upsert(dto: CreateBudgetDto) {
-    let budget = await this.repo.findOne({ where: { month: dto.month } });
+  async upsert(dto: CreateBudgetDto, userId: number) {
+    let budget = await this.repo.findOne({
+      where: { month: dto.month, user: { id: userId } },
+    });
     if (!budget) {
-      budget = this.repo.create(dto);
+      budget = this.repo.create({
+        ...dto,
+        user: { id: userId } as any,
+      });
     } else {
       budget.amount = dto.amount;
     }
