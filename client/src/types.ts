@@ -15,3 +15,9 @@ export interface SummaryMonth {
   month: string;
   total: number;
 }
+
+export interface Budget {
+  id?: number;
+  month: string;  // YYYY-MM
+  amount: number;
+}
