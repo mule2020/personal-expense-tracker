@@ -2,7 +2,10 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Req, Use
 import { ExpensesService } from './expenses.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('expenses')
+@ApiBearerAuth('access-token')
 @Controller('expenses')
 @UseGuards(JwtAuthGuard)
 export class ExpensesController {

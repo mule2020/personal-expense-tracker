@@ -2,7 +2,10 @@ import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/comm
 import { BudgetsService } from './budgets.service';
 import { CreateBudgetDto } from './dto/create-budget.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('budgets')
+@ApiBearerAuth('access-token')
 @Controller('budgets')
 @UseGuards(JwtAuthGuard)
 export class BudgetsController {
